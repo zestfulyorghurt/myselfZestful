@@ -1,0 +1,70 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zestfulYoghurt.zy.mappers.staffMapper">
+<!--根据条件查询员工信息-->
+    <select id="getAllStaffByCondition" parameterType="map" resultType="com.zestfulYoghurt.zy.pojos.staff">
+        select * from staff_info where staff_name = #{staffName}and staff_sex = #{staffSex} and staff_age = #{staffAge}
+    </select>
+<!--定义分页查询-->
+    <select id="getStaffInfoPaging" parameterType="map" resultType="com.zestfulYoghurt.zy.pojos.staff">
+        select * from staff_info limit #{startIndex},#{dataNumber}
+    </select>
+<!--查询所有员工信息-->
+    <select id="getAllStaffInfo" resultType="com.zestfulYoghurt.zy.pojos.staff">
+        select * from staff_info
+    </select>
+    <!--根据分页查询员工条件信息-->
+    <select id="getStaffInfoConditionPaging" parameterType="map" resultType="com.zestfulYoghurt.zy.pojos.staff">
+        select * from staff_info where
+        <choose>
+            <when test="sexSwitch==2">1=1</when>
+            <otherwise>sex = #{sexSwitch}</otherwise>
+        </choose>
+            and
+        <choose>
+            <when test="ageCondition.maxAge==null">
+            age >= #{ageCondition.minAge}
+            </when>
+            <otherwise>age between #{ageCondition.minAge} and #{ageCondition.maxAge}</otherwise>
+        </choose>
+        and
+        <choose>
+            <when test="name!=''">name = #{name}</when>
+            <otherwise>1=1</otherwise>
+        </choose>
+        limit #{startIndex},#{dataNumber}
+    </select>
+    <!--根据条件查询员工信息-->
+    <select id="getStaffInfoCondition" parameterType="map" resultType="com.zestfulYoghurt.zy.pojos.staff">
+        select * from staff_info where
+        <choose>
+            <when test="sexSwitch==2">1=1</when>
+            <otherwise>sex = #{sexSwitch}</otherwise>
+        </choose>
+        and
+        <choose>
+            <when test="ageCondition.maxAge==null">
+                age >= #{ageCondition.minAge}
+            </when>
+            <otherwise>age between #{ageCondition.minAge} and #{ageCondition.maxAge}</otherwise>
+        </choose>
+        and
+        <choose>
+            <when test="name!=''">name = #{name}</when>
+            <otherwise>1=1</otherwise>
+        </choose>
+    </select>
+    <!--根据员工的id删除一条员工信息-->
+    <delete id="deleteStaffInfo" parameterType="string">
+        delete from staff_info where id = #{id}
+    </delete>
+    <!--根据员工id修改员工信息-->
+    <update id="updateStaffInfo" parameterType="map">
+        update staff_info set name = #{name},age = #{age},sex = #{sex},email = #{email},tel = #{tel},join_time = #{joinTime} where id = #{id}
+    </update>
+    <!--添加一条员工信息-->
+    <insert id="" parameterType="map">
+        insert into staff_info values (null,#{name},#{age},#{sex},#{email},#{tel},#{join_time})
+    </insert>
+</mapper>
