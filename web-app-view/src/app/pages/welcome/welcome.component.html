@@ -1,0 +1,99 @@
+<!-- 等待 -->
+<div class="example" *ngIf="wait" style="position: absolute; z-index:100;background-color: aliceblue;opacity: 0.5;width:100%;height:1020px;margin-top:-120px;margin-left: -302px;">
+    <nz-spin nzSimple style="margin-top:25%;margin-left: 50%;"></nz-spin>
+</div>
+<div style="height:100px;">
+    <div>
+        <div class="card-body" style="float: left"> <label for="sel1">性别:</label></div>
+        <div class="card-body" style="float: left"><select class="form-control" id="sel1" [(ngModel)]="select__sex_data">
+            <option *ngFor="let item of select_sex">{{item}}</option>       
+        </select></div>
+    </div>
+    <div>
+        <div class="card-body" style="float: left"> <label for="sel1">年龄:</label></div>
+        <div class="card-body" style="float: left"><select class="form-control" id="sel1" [(ngModel)]="select__age_data">
+                <option *ngFor = "let item of select_age">{{item}}</option>   
+                </select></div>
+    </div>
+    <div>
+        <div class="card-body" style="float: left"> <label for="sel1">姓名:</label></div>
+        <div class="card-body" style="float: left"><input type="text" class="form-control" id="usr" [(ngModel)]="name"></div>
+    </div>
+    <div>
+        <div class="card-body" style="float: left">
+            <!-- <button type="button" class="btn btn-primary" (click)="conditions_for_retrieval()">检索</button> -->
+            <button nz-button nzType="primary">检索</button>
+        </div>
+        <div class="card-body" style="float: left"><button type="button" class="btn btn-primary" (click)="cancel_the_retrieval()">取消检索</button></div>
+    </div>
+</div>
+<div style="height:750px;">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th *ngFor="let item of table_heard">
+                    {{item}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of staff_info" style="height:75px;">
+                <td>{{item.name}}</td>
+                <td>{{item.age}}</td>
+                <td>{{item.sex}}</td>
+                <td>{{item.email}}</td>
+                <td>{{item.tel}}</td>
+                <td>{{item.joinTime}}</td>
+                <td>
+                    <button class="btn btn-primary" (click)="showModal(item.id)"><span>修改</span></button>
+                    <button nz-popconfirm nzPopconfirmTitle="确定删除吗？" (nzOnConfirm)="delete_staff_info(item.id)" nzPopconfirmPlacement="top" type="button" class="btn btn-primary">删除</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div style="height:50px">
+        <ul class="pagination" style="float: right;height:50px;">
+            <li class="page-item"><a class="page-link" (click)="change_page(-1)" style="color: rgb(0,21,41);">Previous</a></li>
+            <li class="page-item" *ngFor="let item of paging;let i = index"><a style="color: rgb(0,21,41);" class="page-link" [ngClass]="{'paging_select': paging_select[i]}" (click)="change_page(i)">{{item}}</a></li>
+            <li class="page-item"><a class="page-link" (click)="change_page(-2)" style="color: rgb(0,21,41);">Next</a></li>
+        </ul>
+    </div>
+</div>
+
+<div style="position: absolute; z-index:100;background-color: rgba(0, 0, 0, 0.5);width:115%;height:1020px;margin-top:-970px;margin-left: -302px;" *ngIf="model">
+    <div style="position: absolute;width:400px;height:600px;margin-left: 40%;margin-top: 150px;background-color:white;border-radius:5px">
+        <div style="margin-top:10%;margin-left: 5%;">
+            <h5>员工信息修改</h5>
+        </div>
+        <form name="modal_form" style="margin-left: 10%;margin-top: 10%;">
+            <div style="margin-top: 10px;">
+                <p>{{modal_p_name}}</p><input [ngClass]="{'text-success': validate_name}" class="modal_input" nz-input placeholder="{{modal_p_name}}" [(ngModel)]="modal_input_name" [ngModelOptions]="{standalone: true}" />
+            </div>
+            <div style="margin-top: 10px;">
+                <p>{{modal_p_age}}</p><input [ngClass]="{'text-success': validate_age}" class="modal_input" nz-input placeholder="{{modal_p_age}}" [(ngModel)]="modal_input_age" [ngModelOptions]="{standalone: true}" />
+            </div>
+            <div style="margin-top: 10px;">
+                <p>{{modal_p_sex}}</p>
+                <nz-radio-group [(ngModel)]="modal_rudio_sex" [ngModelOptions]="{standalone: true}">
+                    <label nz-radio nzValue="0">{{modal_label_man}}</label>
+                    <label nz-radio nzValue="1">{{modal_label_woman}}</label>
+                </nz-radio-group>
+            </div>
+            <div style="margin-top: 10px;">
+                <p>{{modal_p_email}}</p><input [ngClass]="{'text-success': validate_email}" name="email" class="modal_input" type="email" required nz-input placeholder="{{modal_p_email}}" [(ngModel)]="modal_input_email" [ngModelOptions]="{standalone: true}"
+                />
+            </div>
+            <div style="margin-top: 10px;">
+                <p>{{modal_p_tel}}</p><input [ngClass]="{'text-success': validate_tel}" class="modal_input" nz-input placeholder="{{modal_p_tel}}" [(ngModel)]="modal_input_tel" [ngModelOptions]="{standalone: true}" />
+            </div>
+            <div style="margin-top: 10px;">
+                <p>{{modal_p_joinTime}}</p><input [ngClass]="{'text-success': validate_joinTime}" type="date" class="modal_input" nz-input placeholder="{{modal_p_joinTime}}" [(ngModel)]="modal_input_joinTime" [ngModelOptions]="{standalone: true}" />
+            </div>
+        </form>
+        <br>
+        <div>
+            <button type="button" class="btn btn-primary" style="margin-left: 10%;width:80px" (click)="handleOk()">确认</button>
+            <button type="button" class="btn btn-light" style="margin-left: 10%;width:80px" (click)="handleCancel()">取消</button>
+        </div>
+    </div>
+</div>

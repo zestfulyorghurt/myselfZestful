@@ -1,0 +1,79 @@
+.login-form {
+    max-width: 300px;
+  }
+
+  .login-form-margin {
+    margin-bottom: 16px;
+  }
+
+  .login-form-forgot {
+    float: right;
+  }
+
+  .login-form-button {
+    width: 100%;
+  }
+  .xuanzhuan{
+    animation: zhuan 2s linear infinite;
+  }
+
+  .d{
+    animation: dxuanzhuan 3s linear infinite;
+  }
+  .d2{
+    animation: dxuanzhuan2 4s linear infinite;
+  }
+  @keyframes zhuan {
+    from {
+
+    }to{
+      transform: rotate(360deg);
+    } 
+  }
+  @keyframes dxuanzhuan {
+    from{
+
+    }to{
+      transform: rotateY(360deg);
+    }
+  }
+
+  @keyframes dxuanzhuan2 {
+    from{
+
+    }to{
+      transform:rotateY(360deg);
+    }
+  }
+
+
+  .jumpM{
+    animation: jump 0.5s linear infinite;
+  }
+
+  .jumpM2{
+    animation: jump 0.7s linear infinite;
+  }
+
+  .jumpM3{
+    animation: jump 0.9s linear infinite;
+  }
+
+  .jumpM4{
+    animation: jump 0.3s linear infinite;
+  }
+  @keyframes jump {
+    from{
+
+    }to{
+      transform:translate(0px,10px);
+    }
+  }
+
+
+  nz-alert{
+    position: absolute;
+    width:400px;
+    left: 70%;
+    top: 10%; 
+  }
